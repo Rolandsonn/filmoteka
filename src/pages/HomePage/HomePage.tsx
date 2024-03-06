@@ -1,10 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, FC, useContext } from "react";
+import { fetchFilms, searchFilms } from "../../api/fetchFilms";
+import { Movie } from "../../types/type";
+import MoviesList from "../../components/screens/MoviesList";
+import { TodoContext } from "../../store/Context";
+const HomePage: FC = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [value, setValue] = useContext(TodoContext);
 
-type Props = {};
+  useEffect(() => {
+    fetchFilms(page, setMovies);
+  }, []);
 
-const HomePage = (props: Props) => {
-  return <div>Home Page</div>;
+  useEffect(() => {
+    value && searchFilms(page, setMovies, value);
+  }, [value]);
+
+  return (
+    <div>
+      <MoviesList movies={movies} />
+    </div>
+  );
 };
 
 export default HomePage;
