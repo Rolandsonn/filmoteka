@@ -4,11 +4,13 @@ import axios from "axios";
 
 export const fetchFilms = async (page, setMovies) => {
   try {
-    await axios(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=826ff55be219075fe0c51d998b696b2f&page=${page}&per_page=10`
-    ).then((res) => {
-      setMovies(res.data.results);
-    });
+    await axios
+      .get(
+        `https://api.themoviedb.org/3/trending/all/day?api_key=826ff55be219075fe0c51d998b696b2f&page=${page}`
+      )
+      .then((res) => {
+        setMovies(res.data.results);
+      });
   } catch (error) {
     console.error(error);
   }
